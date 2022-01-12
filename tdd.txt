@@ -1,0 +1,75 @@
+Test Driven Development (TDD) is a development process where we write tests first before we write code.
+
+The TDD loop:
+
+0. Identify a requirement - something our code needs to do. 
+Small as possible - working small increments
+
+1. [RED] Write a failing test - express what we want our code to do! 
+ 
+ Before we write the test - we need to know (or guess at:)
+the name of the function / method
+the parameters (input)
+what will be returned (output)
+Our domain modelling process helps us with this.
+
+Ie. "When I call method X with params Y - I expect Z to be returned"
+
+      function add(num1, num2) -> result of num1 + num2
+	Tests could be:
+      add(10, 5) -> 15
+      add(1, 1) -> 2
+      add(-10, 3) -> -7
+
+	Jasmine code:
+  it("test add", ()=> {
+ 
+     // set up - create any test data we need
+      //(nothing in this example)
+     
+     // execute - run the code we are testing
+      //we are NOT writing the code to compute this in the spec
+      // - we are "hard-coding" the value we expect - the value
+      // we *know* to be correct.
+     const expected = 15
+     const actual = add(10, 5) //should be 15
+     
+     // verify - check the results are as we expect
+ 
+     //toEqual is a function on the jasmine library!
+     //expect is a function too!
+     expect(actual).toEqual(expected)
+  })
+
+
+When writing the test - you don't yet know *how* you will get the result only what it should be. 
+  
+Why bother with tests? Why not just manually run our code and check the output?
+More accurate
+Get constant feedback out code is working, work in small chunks
+Give us confidence to change our code 
+Repeatable & automated - low effort to run  - can check any change doesn't break code.
+
+2. [GREEN] Write code to make the test pass!
+
+"Race to green" - get to a green state as soon as possible
+Write the simplest code possible to make the test pass!
+Don't hard code the expected result :slight_smile:
+
+3. [REFACTOR] Make any required improvements to the code
+
+Reactor: To improve the design of existing code without changing it's functionality
+Why would we refactor?
+Simpler to understand code for others
+Easier to maintain
+Easier to debug
+Less duplication
+
+Now that our test is passing, if we accidentally break our code we'll know!
+Tests give us the confidence to change code. 
+
+4. Go back to step 0 until all requirements are implemented
+Next test could be an update to the code we just wrote to cover a new case 
+Or a new function/feature
+Maintain a TODO list of tests - only write 1 failing test at a time 
+But we can still maintain our todo list.

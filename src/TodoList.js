@@ -1,44 +1,73 @@
-// - Create a todo item that has an ID, text description, and starts off incomplete
-// - Get all todo items
-// - Set a todo completed by its ID
-// - Get only todo items that are incomplete
-// - Get only todo items that are complete
-// - Search and return a todo item by its ID, or return a message saying it doesn’t exist
-// - Remove a todo item by its ID
-
 class TodoList {
+  constructor() {
+    this.toDoList = [];
+  }
 
-constructor() {
-    this.todos = []
+  create(id, text, status) {
+    const toDo = {
+      id: id,
+      text: text,
+      status: status,
+    };
+    this.toDoList.push(toDo);
+    return toDo;
+  }
+
+  getAll() {
+    return this.toDoList;
+  }
+
+  searchForTodo(id) {
+    let foundTodo = [];
+    for (let i = 0; i < this.toDoList.length; i++) {
+      if (this.toDoList[i].id === id) {
+        foundTodo = this.toDoList[i];
+        return foundTodo;
+      }
+    }
+    return "ITEM NOT FOUND";
+  }
+
+  getIncompleteTodos() {
+    const incompleteToDos = [];
+    for (let i = 0; i < this.toDoList.length; i++) {
+      if (this.toDoList[i].status === "incomplete") {
+        incompleteToDos.push(this.toDoList[i]);
+      }
+    }
+    return incompleteToDos;
+  }
+
+  getCompleteTodos() {
+    const completeToDos = [];
+    for (let i = 0; i < this.toDoList.length; i++) {
+      if (this.toDoList[i].status === "complete") {
+        completeToDos.push(this.toDoList[i]);
+      }
+    }
+    return completeToDos;
+  }
+
+  setComplete(id) {
+    for (let i = 0; i < this.toDoList.length; i++) {
+      const toDo = this.toDoList[i];
+      if (toDo.id === id) {
+        toDo.status = "complete";
+        this.toDoList.push(toDo);
+      }
+      return toDo;
+    }
+  }
+
+  removeTodo(id) {
+    for (let i = 0; i < this.toDoList.length; i++) {
+      if (id === this.toDoList[i].id) {
+        const removedTodo = this.toDoList[i]
+        this.toDoList.splice(i, 1)
+        return removedTodo;
+      }
+    }
+  }
 }
-
- create (description)  {
-     const todo = {
-     id: this.todos.length+1 ,
-     text: description,
-     status:"incomplete"
-     } 
-     this.todos.push(todo)
-     return todo
- }
-
- setComplete() {
-     const completed = {
-         id: 1,
-         text: description,
-         status: "complete"
-     }
- }
-
-
-getAll() {
-    return this.todos
-}
-
-
-}
-
-
-
 
 module.exports = TodoList;

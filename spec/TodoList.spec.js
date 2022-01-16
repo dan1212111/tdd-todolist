@@ -14,48 +14,8 @@ describe("TodoList", () => {
       text: "turn the heating on!",
       status: "incomplete",
     };
-    // execute
-    const result = todoList.create("turn the heating on!");
-    // verify
-    expect(result).toEqual(expected);
-  });
 
-  it("creates a second todo item", () => {
-    // set up
-    const expectedOne = {
-      id: 1,
-      text: "turn the heating on!",
-      status: "incomplete",
-    };
-
-    const expectedTwo = {
-      id: 2,
-      text: "make lunch!",
-      status: "incomplete",
-    };
-    // execute
-    const resultOne = todoList.create("turn the heating on!");
-    const resultTwo = todoList.create("make lunch!");
-    // verify
-    expect(resultOne).toEqual(expectedOne);
-    expect(resultTwo).toEqual(expectedTwo);
-  });
-
-  //get all Todo items
-  it("get all ToDos", () => {
-    // set up
-    const expected = [];
-
-    //execute
-    const allTodos = todoList.getAll();
-
-    //verify
-    expect(allTodos).toEqual(expected);
-  });
-
-  it("return single Todo", () => {
-    // set up
-    const expectedOne = [
+    const expectedTwo = [
       {
         id: 1,
         text: "turn the heating on!",
@@ -63,31 +23,136 @@ describe("TodoList", () => {
       },
     ];
 
-    todoList.create("turn the heating on!")
-
-    //execute
-    const allTodos = todoList.getAll();
-
-    //verify
-    expect(allTodos).toEqual(expectedOne);
+    // execute
+    const result = todoList.create(1, "turn the heating on!", "incomplete");
+    const resultTwo = todoList.getAll();
+    // verify
+    expect(result).toEqual(expected);
+    expect(resultTwo).toEqual(expectedTwo);
   });
-  it("set item completed by ID", () => {
+
+  it("change status to complete", () => {
     // set up
-    const expectedOne = [
-      {
+    const expectedThree = {
+      id: 1,
+      text: "turn the heating on!",
+      status: "incomplete",
+    };
+
+    const expectedFour = {
+      id: 1,
+      text: "turn the heating on!",
+      status: "complete",
+    };
+
+    // execute
+    todoList.create(1, "turn the heating on!", "incomplete");
+    const resultFour = todoList.setComplete(1);
+
+    // verify
+    expect(resultFour).toEqual(expectedFour);
+  });
+
+  it("list all complete/incomplete todos", () => {
+    // set up
+
+    const incompleteToDos = [
+     {
         id: 1,
         text: "turn the heating on!",
+        status: "incomplete",
+      },
+  
+    {
+        id: 2,
+        text: "turn the shower off",
+        status: "incomplete",
+      },
+  {
+        id: 3,
+        text: "turn the lights off",
+        status: "incomplete",
+      
+    }]
+
+    const completeTodos = [
+      {
+        id: 4,
+        text: "turn the music down",
         status: "complete",
       },
-    ];
+  
+    {
+        id: 5,
+        text: "tidy the kitchen",
+        status: "complete",
+      },
+  {
+        id: 6,
+        text: "mop the floor",
+        status: "complete",
+      
+    }
+    ]
 
-    todoList.create("turn the heating on!")
+    // execute
+    todoList.create(1,"turn the heating on!", "incomplete" );
+    todoList.create(2, "turn the shower off", "incomplete");
+    todoList.create(3,"turn the lights off", "incomplete" );
+    todoList.create(4, "turn the music down", "complete");
+    todoList.create(5,"tidy the kitchen", "complete" );
+    todoList.create(6, "mop the floor", "complete");
+    const resultFive = todoList.getCompleteTodos();
+    const resultSix = todoList.getIncompleteTodos();
 
-    //execute
-    todoList.setComplete(1)
-    const allTodos = todoList.getAll();
-    
-    //verify
-    expect(allTodos).toEqual(expectedOne);
+    // verify
+    expect(resultFive).toEqual(completeTodos);
+    expect(resultSix).toEqual(incompleteToDos);
+  });
+
+  it("search for a todo", () => {
+    // set up
+
+    const errorMessage = "ITEM NOT FOUND"
+    const expectedSeven = {
+      id: 6,
+      text: "mop the floor",
+      status: "complete",
+  }
+
+  const expectedFour = 
+    {
+       id: 1,
+       text: "turn the heating on!",
+       status: "incomplete",
+     }
+
+    // execute
+    todoList.create(1,"turn the heating on!", "incomplete" );
+    todoList.create(2, "turn the shower off", "incomplete");
+    todoList.create(3,"turn the lights off", "incomplete" );
+    const resultSeven = todoList.searchForTodo(6)
+    const resultEight = todoList.searchForTodo(1)
+    // verify
+    expect(resultSeven).toEqual(errorMessage);
+    expect(resultEight).toEqual(expectedFour);
+  });
+
+  it("remove a todo", () => {
+    // set up
+    const removedTodo = {
+      id: 2,
+      text: "turn the shower off",
+      status: "incomplete",
+    };
+
+    // execute
+    todoList.create(1,"turn the heating on!", "incomplete" );
+    todoList.create(2, "turn the shower off", "incomplete");
+    todoList.create(3,"turn the lights off", "incomplete" );
+    const resultNine = todoList.removeTodo(2);
+
+    // verify
+    expect(resultNine).toEqual(removedTodo);
   });
 });
